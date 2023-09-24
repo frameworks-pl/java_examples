@@ -1,5 +1,6 @@
 package pl.frameworks.java_examples.threads;
 
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -16,6 +17,11 @@ public class ThreadsTests {
 
     @Autowired
     private Sum sumComponent;
+
+    @BeforeEach
+    public void beforeEach() {
+        applicationContext.getBean(Sum.class).resetSum();
+    }
 
     @Test
     public void testSimpleThreads() {
@@ -39,6 +45,28 @@ public class ThreadsTests {
         }
 
         assert(sum == sumComponent.getSum());
+
+    }
+
+    @Test
+    public void testStopThread() {
+
+        //given
+        List<SimpleThread> threads = new ArrayList<>();
+        int sum = 0;
+        for (int i=0; i < 10; i++) {
+            SimpleThread simpleThread = new SimpleThread(applicationContext.getBean(Sum.class), i);
+            simpleThread.start();
+            threads.add(simpleThread);
+        }
+
+        //when
+        for (SimpleThread thread : threads) {
+            thread.requestStop();
+        }
+
+        //then
+        assert(sum == 0);
 
     }
 }
