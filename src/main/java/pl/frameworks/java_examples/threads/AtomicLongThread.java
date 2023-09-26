@@ -15,7 +15,10 @@ public class AtomicLongThread extends Thread {
 
     @Override
     public void run() {
-        atomicLong.set(atomicLong.get() + value);
+
+        synchronized(atomicLong) {
+            atomicLong.set(atomicLong.get() + value);
+        }
     }
 
 }

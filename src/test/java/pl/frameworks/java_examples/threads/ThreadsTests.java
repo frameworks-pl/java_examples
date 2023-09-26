@@ -2,31 +2,20 @@ package pl.frameworks.java_examples.threads;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.parallel.Execution;
-import org.junit.jupiter.api.parallel.ExecutionMode;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.context.ApplicationContext;
-
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicLong;
 
-@SpringBootTest //thnaks to this annotation ApplicationContext will be loaded
-@Execution(ExecutionMode.SAME_THREAD)
+
 public class ThreadsTests {
 
     public static final AtomicLong atomicSum = new AtomicLong();
 
-    @Autowired
-    private ApplicationContext applicationContext;
-
-    @Autowired
-    private Sum sumComponent;
+    private final Sum sumComponent = new Sum();
 
     @BeforeEach
     public void beforeEach() {
-        applicationContext.getBean(Sum.class).resetSum();
+        sumComponent.resetSum();
     }
 
     @Test
@@ -37,7 +26,7 @@ public class ThreadsTests {
         int sum = 0;
         for (int i = 0; i < 30; i++) {
             System.out.println(String.format("Adding thread with value=%d", i));
-            SimpleThread simpleThread = new SimpleThread(applicationContext.getBean(Sum.class), i);
+            SimpleThread simpleThread = new SimpleThread(this.sumComponent, i);
             simpleThread.start();
             threads.add(simpleThread);
             sum += i;
@@ -60,7 +49,7 @@ public class ThreadsTests {
 
         List<SimpleThread> threads = new ArrayList<>();
         for (int i=0; i < 10; i++) {
-            SimpleThread simpleThread = new SimpleThread(applicationContext.getBean(Sum.class), i);
+            SimpleThread simpleThread = new SimpleThread(this.sumComponent, i);
             simpleThread.start();
             threads.add(simpleThread);
         }

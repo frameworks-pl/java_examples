@@ -4,7 +4,7 @@ package pl.frameworks.java_examples.threads;
 import org.springframework.stereotype.Component;
 import java.util.concurrent.atomic.AtomicInteger;
 
-@Component
+
 public class Sum {
 
     protected volatile int sum;
