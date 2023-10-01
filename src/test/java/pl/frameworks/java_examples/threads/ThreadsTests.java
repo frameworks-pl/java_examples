@@ -6,27 +6,19 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicLong;
 
-
 public class ThreadsTests {
 
     public static final AtomicLong atomicSum = new AtomicLong();
-
-    private final Sum sumComponent = new Sum();
-
-    @BeforeEach
-    public void beforeEach() {
-        sumComponent.resetSum();
-    }
 
     @Test
     public void testSimpleThreads() {
 
         List<SimpleThread> threads = new ArrayList<>();
+        Sum sumComponent = new Sum();
 
         int sum = 0;
         for (int i = 0; i < 30; i++) {
-            System.out.println(String.format("Adding thread with value=%d", i));
-            SimpleThread simpleThread = new SimpleThread(this.sumComponent, i);
+            SimpleThread simpleThread = new SimpleThread(sumComponent, i);
             simpleThread.start();
             threads.add(simpleThread);
             sum += i;
@@ -47,9 +39,11 @@ public class ThreadsTests {
     @Test
     public void testStopThread() {
 
+        Sum sumComponent = new Sum();
+
         List<SimpleThread> threads = new ArrayList<>();
         for (int i=0; i < 10; i++) {
-            SimpleThread simpleThread = new SimpleThread(this.sumComponent, i);
+            SimpleThread simpleThread = new SimpleThread(sumComponent, i);
             simpleThread.start();
             threads.add(simpleThread);
         }
