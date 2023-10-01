@@ -1,7 +1,11 @@
-package pl.frameworks.java_examples.threads;
+package pl.frameworks.java_examples;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import pl.frameworks.java_examples.threads.AtomicLongThread;
+import pl.frameworks.java_examples.threads.SimpleThread;
+import pl.frameworks.java_examples.threads.Sum;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicLong;

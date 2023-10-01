@@ -1,4 +1,4 @@
-package pl.frameworks.java_examples.threads;
+package pl.frameworks.java_examples;
 
 import org.junit.jupiter.api.Test;
 
